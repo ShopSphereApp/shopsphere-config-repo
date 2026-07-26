@@ -1,11 +1,11 @@
-server:
-  port: 8761
-
 spring:
-  application:
-    name: shopsphere-service-registry
   main:
     allow-bean-definition-overriding: true
+
+logging:
+  level:
+    com.netflix.eureka: INFO
+    com.netflix.discovery: INFO
 
 eureka:
   instance:
@@ -17,16 +17,3 @@ eureka:
     enable-self-preservation: true
     eviction-interval-timer-in-ms: 60000
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
-  endpoint:
-    health:
-      show-details: always
-
-logging:
-  level:
-    com.netflix.eureka: INFO
-    com.netflix.discovery: INFO
