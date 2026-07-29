@@ -10,6 +10,12 @@ spring:
           uri: lb://customer-soe-service
           predicates:
             - Path=/api/v1/customers/**
+          filters:
+            - Retry=3,INTERNAL_SERVER_ERROR,BAD_GATEWAY,GATEWAY_TIMEOUT
+            - name: CircuitBreaker
+              args:
+                name: customerService
+                fallbackUri: forward:/fallback/customer
         - id: user-service
           uri: lb://user-domain-service
           predicates:
