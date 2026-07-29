@@ -22,7 +22,7 @@ spring:
                 name: customerService
                 statusCodes:
                   - 500
-                fallbackUri: forward:/fallback/customer
+                fallbackUri: forward:/api/v1/customers/register
         - id: user-service
           uri: lb://user-domain-service
           predicates:
