@@ -11,12 +11,12 @@ spring:
           predicates:
             - Path=/api/v1/customers/**
           filters:
-#            - name: Retry
-#              args:
-#                retries: 3
-#                statuses:
-#                  - INTERNAL_SERVER_ERROR
-#                  - BAD_GATEWAY
+            - name: Retry
+              args:
+                retries: 3
+                statuses:
+                  - INTERNAL_SERVER_ERROR
+                  - BAD_GATEWAY
             - name: CircuitBreaker
               args:
                 name: customerService
@@ -46,3 +46,17 @@ logging:
 jwt:
   secret: your-256-bit-secret-key-your-256-bit-secret-key
   expiration: 86400000
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      customerService:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+        permittedNumberOfCallsInHalfOpenState: 3
+  timelimiter:
+    instances:
+      customerService:
+        timeoutDuration: 3s
