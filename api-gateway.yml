@@ -1,20 +1,76 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      resourceserver:
+        public-key-location: classpath:keys/public.pem
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path= /customers/api/v1/**
+          filters:
+            - UserHeader
+            - name: Retry
+              args:
+                retries: 3
+                statuses:
+                  - INTERNAL_SERVER_ERROR
+                  - BAD_GATEWAY
+            - name: CircuitBreaker
+              args:
+                name: customerService
+                statusCodes:
+                  - 500
+                fallbackUri: forward:/customers/api/v1/fallback/register
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path= /users/api/v1/**
+          filters:
+            - ApiKey
+
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL}/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
+services:
+  user-service:
+    url: ${USER_SERVICE_URL}
+
+security:
+  api-key: ${API_KEY}
+
 logging:
   level:
-    org.springframework.cloud.gateway: INFO
-    org.springframework.security: INFO
+    org.springframework.cloud.gateway.filter.factory.CircuitBreakerGatewayFilterFactory: TRACE
+    org.springframework.security: TRACE
+    org.springframework.web: TRACE
+    org.springframework.cloud.config.server.environment: DEBUG
+    org.eclipse.jgit: DEBUG
+    io.github.resilience4j: DEBUG
+    org.springframework.cloud.gateway: TRACE
 
 jwt:
-  secret: your-256-bit-secret-key-your-256-bit-secret-key
+  private-key: classpath:keys/private_key.pem
+  public-key: classpath:keys/public_key.pem
+  expiration-seconds: 3600
+  issuer: shopsphere-gateway
+  secret: ${JWT_SECURITY}
   expiration: 86400000
 
 resilience4j:

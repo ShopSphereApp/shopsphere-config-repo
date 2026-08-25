@@ -2,6 +2,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+
 logging:
   level:
     com.netflix.eureka: INFO
@@ -9,11 +10,13 @@ logging:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_HOST}
   client:
     register-with-eureka: false
     fetch-registry: false
   server:
     enable-self-preservation: true
     eviction-interval-timer-in-ms: 60000
+
+
 

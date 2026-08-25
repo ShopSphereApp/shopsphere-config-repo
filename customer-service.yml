@@ -1,7 +1,16 @@
+spring:
+  r2dbc:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+security:
+  api-key: ${API_KEY}
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL}/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:

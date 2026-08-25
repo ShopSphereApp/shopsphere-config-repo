@@ -1,22 +1,33 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   r2dbc:
-    url: r2dbc:oracle://localhost:1521/FREEPDB1
-    username: shopsphere
-    password: shopsphere
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
 
 
+security:
+  api-key: ${API_KEY}
+
+
+app:
+  security:
+    enabled: ${SECURITY}
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.security: TRACE
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL}/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
