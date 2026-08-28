@@ -1,8 +1,0 @@
-SECURITY: false
-
-CONFIG_SERVER: http://localhost:8888
-EUREKA_URL: http://localhost:8761
-EUREKA_HOST: localhost
-
-USER_SERVICE_URL: http://localhost:8082
-

@@ -1,33 +1,11 @@
 spring:
-  main:
-    allow-bean-definition-overriding: true
   r2dbc:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-  webflux:
-    base-path: /service/users
-
-
-
-
 
 security:
   api-key: ${API_KEY}
-
-
-app:
-  security:
-    enabled: ${SECURITY}
-
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.orm.jdbc.bind: TRACE
-    org.springframework.security: TRACE
 
 eureka:
   client:

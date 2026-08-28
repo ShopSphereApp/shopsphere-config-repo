@@ -9,19 +9,15 @@ logging:
     org.springframework.cloud.gateway: TRACE
 
 security:
-  api-key: admin123
+  api-key: ${API_KEY}
 
 services:
   user-service:
-    url: http://localhost:8082
+    url: ${USER_SERVICE_URL}
 
 spring:
   main:
     allow-bean-definition-overriding: true
-  application:
-    name: api-gateway
-  config:
-    import: optional:configserver:http://localhost:8888
   security:
     oauth2:
       resourceserver:
@@ -34,7 +30,7 @@ spring:
           lower-case-service-id: true
       routes:
         - id: customer-service
-          uri: lb://customer-soe-service
+          uri: lb://customer-service
           predicates:
             - Path= /customers/api/v1/**
           filters:
@@ -52,7 +48,7 @@ spring:
                   - 500
                 fallbackUri: forward:/customers/api/v1/fallback/register
         - id: user-service
-          uri: lb://user-domain-service
+          uri: lb://user-service
           predicates:
             - Path= /users/api/v1/**
           filters:
