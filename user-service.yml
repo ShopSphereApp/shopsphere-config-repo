@@ -1,22 +1,24 @@
 spring:
+  application:
+    name: user-service
   main:
     allow-bean-definition-overriding: true
   r2dbc:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: r2dbc:postgresql://shopspherpostgresql.ch00as842a9d.ap-south-2.rds.amazonaws.com:5432/shopsphere?sslMode=REQUIRE
+    username: shopsphere_admin
+    password: shopsphere_admin
   jpa:
     hibernate:
       ddl-auto: update
 
 
 security:
-  api-key: ${API_KEY}
+  api-key: admin123
 
 
 app:
   security:
-    enabled: ${SECURITY}
+    enabled: false
 
 logging:
   level:
@@ -27,7 +29,7 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URL}/eureka/
+      defaultZone: http://localhost:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
   instance:
