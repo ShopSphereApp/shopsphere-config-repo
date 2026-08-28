@@ -7,6 +7,10 @@ spring:
 security:
   api-key: ${API_KEY}
 
+services:
+  user-service:
+    url: http://user-service/service/users
+
 eureka:
   client:
     service-url:
