@@ -13,7 +13,17 @@ security:
 
 services:
   user-service:
-    url: ${USER_SERVICE_URL}
+    url: ${USER_SERVICE_URL}/service/users
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
 
 spring:
   main:
@@ -32,7 +42,7 @@ spring:
         - id: customer-service
           uri: lb://customer-service
           predicates:
-            - Path= /customers/api/v1/**
+            - Path= /service/customers/**
           filters:
             - UserHeader
             - name: Retry
@@ -46,11 +56,11 @@ spring:
                 name: customerService
                 statusCodes:
                   - 500
-                fallbackUri: forward:/customers/api/v1/fallback/register
+                fallbackUri: forward:/service/customers/api/v1/fallback
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path= /users/api/v1/**
+            - Path= /service/users/**
           filters:
             - ApiKey
 
