@@ -1,11 +1,24 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   r2dbc:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-
-security:
-  api-key: ${API_KEY}
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+    consumer:
+      group-id: inventory-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
 
 eureka:
   client:
@@ -16,3 +29,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+
+
+
+

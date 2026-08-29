@@ -16,3 +16,6 @@ logging:
     root: INFO
     com.shopsphere: DEBUG
     org.springframework.kafka: INFO
+    org.springframework.web: INFO
+    org.springframework.r2dbc: DEBUG
+    reactor.netty: INFO

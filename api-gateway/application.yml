@@ -75,6 +75,12 @@ spring:
             - Path= /service/search/**
           filters:
             - UserHeader
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path= /service/inventory/**
+          filters:
+            - UserHeader
 
 jwt:
   private-key: classpath:keys/private_key.pem
