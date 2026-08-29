@@ -79,4 +79,10 @@ spring:
             - Path= /service/payment/**
           filters:
             - UserHeader
+        - id: shipping-service
+          uri: lb://shipping-service
+          predicates:
+            - Path= /service/shipping/**
+          filters:
+            - UserHeader
 

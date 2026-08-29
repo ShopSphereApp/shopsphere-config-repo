@@ -3,16 +3,32 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    consumer:
+      group-id: shipping-service-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      ack-mode: manual
 
-security:
-  api-key: ${API_KEY}
+kafka:
+  topic:
+    order-events: shopsphere.order.events
+    shipping-events: shipping-events
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL}/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
+shipping:
+  outbox:
+    poll-interval-ms: 1000
+    recovery-interval-ms: 5000
+
+services:
+  customer-service:
+    url: http://customer-service/service/customers
+  product-service:
+    url: http://product-service/service/product
