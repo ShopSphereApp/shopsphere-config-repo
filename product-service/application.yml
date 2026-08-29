@@ -3,9 +3,48 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: true
+    consumer:
+      group-id: product-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.use.type.headers: true
+        spring.json.trusted.packages: "*"
 
 security:
-  api-key: ${API_KEY}
+  api-key: API_KEY
+
+
+
+
+app:
+  security:
+    enabled: false
+  kafka:
+    topics:
+      product-created: product.created
+      product-updated: product.updated
+      product-deleted: product.deleted
+      product-activated: product.activated
+
+
+logging:
+  level:
+    org.springframework.security: TRACE
+
 
 eureka:
   client:
@@ -16,3 +55,4 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+
