@@ -25,6 +25,12 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path= /service/users/**
+          filters:
+            - ApiKey
         - id: customer-service
           uri: lb://customer-service
           predicates:
@@ -43,12 +49,6 @@ spring:
                 statusCodes:
                   - 500
                 fallbackUri: forward:/service/customers/api/v1/fallback
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path= /service/users/**
-          filters:
-            - ApiKey
         - id: product-service
           uri: lb://product-service
           predicates:
@@ -71,6 +71,12 @@ spring:
           uri: lb://order-service
           predicates:
             - Path= /service/order/**
+          filters:
+            - UserHeader
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path= /service/payment/**
           filters:
             - UserHeader
 

@@ -3,16 +3,27 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+    consumer:
+      group-id: payment-processor
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
 
-security:
-  api-key: ${API_KEY}
+payment:
+  outbox:
+    publisher:
+      delay: 5000
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL}/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
+services:
+  order-service:
+    url: http://order-service/service/order
