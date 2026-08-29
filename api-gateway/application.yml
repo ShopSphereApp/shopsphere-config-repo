@@ -85,4 +85,10 @@ spring:
             - Path= /service/shipping/**
           filters:
             - UserHeader
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path= /service/notification/**
+          filters:
+            - UserHeader
 

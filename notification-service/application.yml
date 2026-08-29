@@ -1,8 +1,29 @@
+notification:
+  email:
+    from: ${NOTIFICATION_EMAIL}
+  delivery:
+    interval-ms: 5000
+    batch-size: 50
+    max-retries: 3
+    initial-retry-delay-seconds: 30
+    processing-timeout-minutes: 5
+    recovery-interval-ms: 60000
+
+aws:
+  region: ${AWS_REGION}
+
 spring:
   r2dbc:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-
-security:
-  api-key: ${API_KEY}
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: manual
