@@ -20,16 +20,6 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL}/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
-
 
 
 

@@ -1,13 +1,3 @@
-logging:
-  level:
-    org.springframework.cloud.gateway.filter.factory.CircuitBreakerGatewayFilterFactory: TRACE
-    org.springframework.security: TRACE
-    org.springframework.web: TRACE
-    org.springframework.cloud.config.server.environment: DEBUG
-    org.eclipse.jgit: DEBUG
-    io.github.resilience4j: DEBUG
-    org.springframework.cloud.gateway: TRACE
-
 security:
   api-key: ${API_KEY}
 
@@ -15,15 +5,11 @@ services:
   user-service:
     url: ${USER_SERVICE_URL}/service/users
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL}/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
+jwt:
+  private-key: classpath:keys/private_key.pem
+  public-key: classpath:keys/public_key.pem
+  expiration-seconds: 3600
+  issuer: shopsphere-gateway
 
 spring:
   main:
@@ -81,9 +67,10 @@ spring:
             - Path= /service/inventory/**
           filters:
             - UserHeader
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path= /service/order/**
+          filters:
+            - UserHeader
 
-jwt:
-  private-key: classpath:keys/private_key.pem
-  public-key: classpath:keys/public_key.pem
-  expiration-seconds: 3600
-  issuer: shopsphere-gateway

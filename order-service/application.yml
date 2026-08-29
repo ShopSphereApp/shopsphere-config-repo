@@ -1,28 +1,3 @@
-logging:
-  level:
-    org.springframework.r2dbc: DEBUG
-    org.springframework.data.r2dbc: DEBUG
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,refresh,prometheus
-  endpoint:
-    health:
-      show-details: always
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URL}/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${server.port}
-
-
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -44,3 +19,11 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       properties:
         spring.json.trusted.packages: "*"
+
+services:
+  customer-service:
+    url: http://customer-service/service/customers
+  product-service:
+    url: http://product-service/service/product
+  inventory-service:
+    url: http://inventory-service/service/inventory

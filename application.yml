@@ -11,6 +11,16 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
 logging:
   level:
     root: INFO
@@ -18,4 +28,17 @@ logging:
     org.springframework.kafka: INFO
     org.springframework.web: INFO
     org.springframework.r2dbc: DEBUG
+    org.springframework.data.r2dbc: DEBUG
     reactor.netty: INFO
+    org.springframework.cloud.gateway.filter.factory.CircuitBreakerGatewayFilterFactory: TRACE
+    org.springframework.security: TRACE
+    org.springframework.cloud.config.server.environment: DEBUG
+    org.eclipse.jgit: DEBUG
+    io.github.resilience4j: DEBUG
+    org.springframework.cloud.gateway: TRACE
+    com.netflix.eureka: INFO
+    com.netflix.discovery: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+
