@@ -14,3 +14,5 @@ springdoc:
 logging:
   level:
     root: INFO
+    com.shopsphere: DEBUG
+    org.springframework.kafka: INFO

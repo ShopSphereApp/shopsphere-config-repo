@@ -69,6 +69,12 @@ spring:
             - Path= /service/product/**
           filters:
             - UserHeader
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path= /service/search/**
+          filters:
+            - UserHeader
 
 jwt:
   private-key: classpath:keys/private_key.pem

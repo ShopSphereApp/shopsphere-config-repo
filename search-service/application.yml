@@ -1,11 +1,22 @@
 spring:
-  r2dbc:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    consumer:
+      group-id: search-service-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.value.default.type: com.shopsphere.search.dto.ProductEvent
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: false
+    listener:
+      ack-mode: record
 
-security:
-  api-key: ${API_KEY}
+kafka:
+  topic:
+    product-events: product-events
 
 eureka:
   client:
@@ -16,3 +27,14 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+
+
+
+opensearch:
+  host: ${OPENSEARCH_HOST}
+  port: ${OPENSEARCH_URL}
+  scheme: ${OPENSEARCH_SCHEME}
+  username: ${OPENSEARCH_USERNAME}
+  password: ${OPENSEARCH_PASSWORD}
+  index: products
+
